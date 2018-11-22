@@ -71,6 +71,12 @@ router.post('/login', (req, res) => {
     });
 })
 
+router.get('/users', (req, res) => {
+    db.selectAll((err) => {
+        if (err) return res.status(500).send('Error on the server.');
+    });
+})
+
 router.post('/event', function (req, res) {
     db.insertEvent([
             req.body.titre,
