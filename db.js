@@ -43,7 +43,7 @@ class Db {
             })
     }
 
-    selectAll(callback) {
+    selectAllUsers(callback) {
         return this.db.all(`SELECT * FROM user`, function (err, rows) {
             callback(err, rows)
         })

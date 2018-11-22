@@ -72,8 +72,10 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/users', (req, res) => {
-    db.selectAll((err) => {
+    db.selectAllUsers((err, users) => {
         if (err) return res.status(500).send('Error on the server.');
+        if (!users) return res.status(404).send('No users');
+        res.status(200).send(users);
     });
 })
 
@@ -89,6 +91,14 @@ router.post('/event', function (req, res) {
             if (err) return res.status(500).send("There was a problem registering the event.")
         });
 });
+
+router.get('/evenements', (req, res) => {
+    db.selectAllUsers((err, events) => {
+        if (err) return res.status(500).send('Error on the server.');
+        if (!events) return res.status(404).send('No event');
+        res.status(200).send(events);
+    });
+})
 
 app.use(router)
 
