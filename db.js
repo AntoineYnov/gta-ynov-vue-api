@@ -59,7 +59,7 @@ class Db {
 
     insertEvent(event, callback) {
         return this.db.run(
-            'INSERT INTO evenement (titre, type,date,statut, user) VALUES (?,?,?,?,?)',
+            'INSERT INTO evenement (titre, type,statut,date, user) VALUES (?,?,?,?,?)',
             event, (err) => {
                 callback(err)
             })
