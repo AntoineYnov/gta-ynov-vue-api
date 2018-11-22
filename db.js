@@ -8,36 +8,67 @@ class Db {
     }
 
     createTable() {
-        const sql = `
+        const sql1 = `
             CREATE TABLE IF NOT EXISTS user (
                 id integer PRIMARY KEY, 
-                name text, 
+                first_name text, 
+                last_name text,
+                phone text UNIQUE,
+                adresse text, 
+                code_postale text,
+                date_de_naissance text,
                 email text UNIQUE, 
                 user_pass text,
-                role text)`
-        return this.db.run(sql);
+                role text)`;
+        const sql2 = `
+              CREATE TABLE IF NOT EXISTS evenement(
+                  id integer PRIMARY KEY,
+                  titre text,
+                  type text,
+                  statut text,
+                  date text,
+                  user int,
+                  FOREIGN KEY(user) REFERENCES user(id)
+              )`
+        this.db.run(sql1);
+        this.db.run(sql2);
     }
 
     selectByEmail(email, callback) {
         return this.db.get(
             `SELECT * FROM user WHERE email = ?`,
-            [email],function(err,row){
-                callback(err,row)
+            [email],
+            function (err, row) {
+                callback(err, row)
             })
     }
 
     selectAll(callback) {
-        return this.db.all(`SELECT * FROM user`, function(err,rows){
-            callback(err,rows)
+        return this.db.all(`SELECT * FROM user`, function (err, rows) {
+            callback(err, rows)
         })
     }
 
-    insert(user, callback) {
+    insertUser(user, callback) {
         return this.db.run(
-            'INSERT INTO user (name,email,user_pass, role) VALUES (?,?,?,?)',
+            'INSERT INTO user (first_name, last_name,email,phone,adresse,code_postale,date_de_naissance,user_pass, role) VALUES (?,?,?,?,?,?,?,?,?)',
             user, (err) => {
                 callback(err)
             })
+    }
+
+    insertEvent(event, callback) {
+        return this.db.run(
+            'INSERT INTO evenement (titre, type,date,statut, user) VALUES (?,?,?,?,?)',
+            event, (err) => {
+                callback(err)
+            })
+    }
+
+    getAllEvent(callback) {
+        return this.db.all(`SELECT * FROM evenement`, function (err, rows) {
+            callback(err, rows)
+        })
     }
 }
 
