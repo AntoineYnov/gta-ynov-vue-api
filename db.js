@@ -66,9 +66,9 @@ class Db {
     }
 
     selectEventByUserID(id, callback) {
-        return this.db.get(
+        return this.db.all(
             `SELECT * FROM evenement WHERE user = ?`,
-            [id],
+            id,
             function (err, row) {
                 callback(err, row)
             })
