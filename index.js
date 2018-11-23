@@ -87,8 +87,9 @@ router.post('/event', function (req, res) {
             req.body.statut,
             req.body.userid,
         ],
-        function (err) {
+        function (err, data) {
             if (err) return res.status(500).send("There was a problem registering the event.")
+            res.status(200).send(data)
         });
 });
 
