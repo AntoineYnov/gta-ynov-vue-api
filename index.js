@@ -93,7 +93,7 @@ router.post('/event', function (req, res) {
         });
 });
 
-router.get('/evenements', (req, res) => {
+router.get('/event', (req, res) => {
     db.getAllEvent((err, events) => {
         if (err) return res.status(500).send('Error on the server.');
         if (!events) return res.status(404).send('No event');
@@ -101,7 +101,7 @@ router.get('/evenements', (req, res) => {
     });
 })
 
-router.get('/evenements/:id', (req, res) => {
+router.get('/event/:id', (req, res) => {
     db.selectEventByUserID(req.params.id, (err, events) => {
         if (err) return res.status(500).send('Error on the server.');
         if (!events) return res.status(404).send('No event');
