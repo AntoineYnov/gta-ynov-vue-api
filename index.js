@@ -101,7 +101,7 @@ router.get('/event', (req, res) => {
     });
 })
 
-router.get('/event/:id', (req, res) => {
+router.get('/event/user/:id', (req, res) => {
     db.selectEventByUserID(req.params.id, (err, events) => {
         if (err) return res.status(500).send('Error on the server.');
         if (!events) return res.status(404).send('No event');
