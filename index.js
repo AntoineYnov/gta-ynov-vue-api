@@ -31,6 +31,7 @@ router.post('/register', function (req, res) {
             req.body.role
         ],
         function (err) {
+            console.log(err)
             if (err) return res.status(500).send("There was a problem registering the user.")
             db.selectByEmail(req.body.email, (err, user) => {
                 if (err) return res.status(500).send("There was a problem getting user")
