@@ -113,7 +113,7 @@ router.post('/event', function (req, res) {
             req.body.date_debut,
             req.body.date_fin,
             req.body.statut,
-            req.body.userid,
+            req.body.user,
         ],
         function (err, data) {
             if (err) return res.status(500).send("There was a problem registering the event.")
