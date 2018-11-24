@@ -116,6 +116,7 @@ router.post('/event', function (req, res) {
             req.body.user
         ],
         function (err, data) {
+            console.log(err)
             if (err) return res.status(500).send("There was a problem registering the event.")
             res.status(200).send(data)
         });
