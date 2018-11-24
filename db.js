@@ -26,13 +26,16 @@ class Db {
                   titre text,
                   type text,
                   statut text,
-                  date text,
+                  date_debut text,
+                  date_fin text,
                   user int,
                   FOREIGN KEY(user) REFERENCES user(id)
               )`
         this.db.run(sql1);
         this.db.run(sql2);
     }
+
+    // UTILISATEUR
 
     selectByEmail(email, callback) {
         return this.db.get(
@@ -57,6 +60,34 @@ class Db {
             })
     }
 
+    putUser(user, callback) {
+        return this.db.run(
+            `UPDATE user SET 
+                first_name = ?,
+                last_name = ?,
+                email = ?,
+                phone = ? , 
+                adresse = ? , 
+                code_postale = ? , 
+                date_de_naissance = ? ,
+                role = ? 
+                where id = ?
+               `,
+            user, (err) => {
+                callback(err)
+            })
+    }
+
+    deleteUser(userID, callback) {
+        return this.db.run(
+            `DELETE FROM user where id = ?`,
+            userID, (err) => {
+                callback(err)
+            })
+    }
+
+    // EVENEMENT 
+
     insertEvent(event, callback) {
         return this.db.run(
             'INSERT INTO evenement (titre, type,statut,date, user) VALUES (?,?,?,?,?)',
@@ -74,10 +105,43 @@ class Db {
             })
     }
 
+    selectAllEventEnAttenteForOtherUser(id, callback) {
+        return this.db.all(
+            `SELECT * FROM evenement WHERE statut = 'en attente' AND NOT user = ?`,
+            id,
+            function (err, row) {
+                callback(err, row)
+            })
+    }
+
+
     getAllEvent(callback) {
         return this.db.all(`SELECT * FROM evenement`, function (err, rows) {
             callback(err, rows)
         })
+    }
+
+    putEvent(event, callback) {
+        return this.db.run(
+            `UPDATE evenement SET 
+                titre = ? ,
+                type = ? ,
+                statut = ? ,
+                date_debut = ? ,
+                date_fin = ? , 
+                where id = ?
+               `,
+            user, (err) => {
+                callback(err)
+            })
+    }
+
+    deleteEvent(eventID, callback) {
+        return this.db.run(
+            `DELETE FROM evenement where id = ?`,
+            eventID, (err) => {
+                callback(err)
+            })
     }
 }
 

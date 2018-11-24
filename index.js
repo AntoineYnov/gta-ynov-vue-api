@@ -71,6 +71,13 @@ router.post('/login', (req, res) => {
     });
 })
 
+router.get('/user', (req, res) => {
+    db.deleteUser(req.body.id, (err, events) => {
+        if (err) return res.status(500).send('Error on the server.');
+        res.status(200).send(events);
+    });
+})
+
 router.get('/users', (req, res) => {
     db.selectAllUsers((err, users) => {
         if (err) return res.status(500).send('Error on the server.');
@@ -79,11 +86,31 @@ router.get('/users', (req, res) => {
     });
 })
 
+router.put('/user', function (req, res) {
+    db.putUser([
+            req.body.firstName,
+            req.body.lastName,
+            req.body.email,
+            req.body.phone,
+            req.body.adresse,
+            req.body.codePostale,
+            req.body.dateNaissance,
+            req.body.role,
+            req.body.id
+        ],
+        function (err, data) {
+            if (err) return res.status(500).send("There was a proble while change the event.")
+            res.status(200).send(data)
+        });
+});
+
+
 router.post('/event', function (req, res) {
     db.insertEvent([
             req.body.titre,
             req.body.type,
-            req.body.date,
+            req.body.date_debut,
+            req.body.date_fin,
             req.body.statut,
             req.body.userid,
         ],
@@ -93,7 +120,29 @@ router.post('/event', function (req, res) {
         });
 });
 
+router.put('/event', function (req, res) {
+    db.putEvent([
+            req.body.titre,
+            req.body.type,
+            req.body.date_debut,
+            req.body.date_fin,
+            req.body.statut,
+            req.body.id,
+        ],
+        function (err, data) {
+            if (err) return res.status(500).send("There was a proble while change the event.")
+            res.status(200).send(data)
+        });
+});
+
 router.get('/event', (req, res) => {
+    db.deleteEvent(req.body.id, (err, events) => {
+        if (err) return res.status(500).send('Error on the server.');
+        res.status(200).send(events);
+    });
+})
+
+router.delete('/event', (req, res) => {
     db.getAllEvent((err, events) => {
         if (err) return res.status(500).send('Error on the server.');
         if (!events) return res.status(404).send('No event');
