@@ -160,6 +160,14 @@ router.get('/event/user/:id', (req, res) => {
     });
 })
 
+router.get('/event/user/:id/attente', (req, res) => {
+    db.selectAllEventEnAttenteForOtherUser(req.params.id, (err, events) => {
+        if (err) return res.status(500).send('Error on the server.');
+        if (!events) return res.status(404).send('No event');
+        res.status(200).send(events);
+    });
+})
+
 app.use(router)
 
 let port = process.env.PORT || 3000;
