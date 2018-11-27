@@ -140,7 +140,7 @@ class Db {
                 date_fin = ? , 
                 where id = ?
                `,
-            user, (err) => {
+            [event], (err) => {
                 callback(err)
             })
     }
@@ -151,7 +151,7 @@ class Db {
                 statut = ? ,
                 where id = ?
                `,
-            user, (err) => {
+            [event], (err) => {
                 callback(err)
             })
     }
