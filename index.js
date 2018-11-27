@@ -77,7 +77,7 @@ router.post('/login', (req, res) => {
 
 // DELETE USER
 
-router.delete('/user', (req, res) => {
+router.post('/deleteuser', (req, res) => {
     db.deleteUser(req.body.id, (err, events) => {
         if (err) return res.status(500).send('Error on the server.');
         res.status(200).send(events);
@@ -179,7 +179,7 @@ router.put('/event/statut', function (req, res) {
 
 // DELETE EVENT
 
-router.delete('/event', (req, res) => {
+router.post('/deleteevent', (req, res) => {
     db.deleteEvent(req.body.id, (err, events) => {
         if (err) return res.status(500).send('Error on the server.');
         res.status(200).send(events);
