@@ -72,7 +72,14 @@ router.post('/login', (req, res) => {
     });
 })
 
-router.get('/user', (req, res) => {
+router.delete('/user', (req, res) => {
+    db.deleteUser(req.body.id, (err, events) => {
+        if (err) return res.status(500).send('Error on the server.');
+        res.status(200).send(events);
+    });
+})
+
+router.get('/user/:id', (req, res) => {
     db.deleteUser(req.body.id, (err, events) => {
         if (err) return res.status(500).send('Error on the server.');
         res.status(200).send(events);
@@ -80,7 +87,7 @@ router.get('/user', (req, res) => {
 })
 
 router.get('/users', (req, res) => {
-    db.selectAllUsers((err, users) => {
+    db.selectUserById(req.params.id, (err, users) => {
         if (err) return res.status(500).send('Error on the server.');
         if (!users) return res.status(404).send('No users');
         res.status(200).send(users);
@@ -128,6 +135,17 @@ router.put('/event', function (req, res) {
             req.body.type,
             req.body.date_debut,
             req.body.date_fin,
+            req.body.statut,
+            req.body.id,
+        ],
+        function (err, data) {
+            if (err) return res.status(500).send("There was a proble while change the event.")
+            res.status(200).send(data)
+        });
+});
+
+router.put('/event/statut', function (req, res) {
+    db.putStatutEvent([
             req.body.statut,
             req.body.id,
         ],

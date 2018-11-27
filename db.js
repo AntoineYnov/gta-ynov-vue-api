@@ -46,6 +46,15 @@ class Db {
             })
     }
 
+    selectUserById(id, callback) {
+        return this.db.get(
+            `SELECT * FROM user WHERE id = ?`,
+            id,
+            function (err, row) {
+                callback(err, row)
+            })
+    }
+
     selectAllUsers(callback) {
         return this.db.all(`SELECT * FROM user`, function (err, rows) {
             callback(err, rows)
@@ -129,6 +138,17 @@ class Db {
                 statut = ? ,
                 date_debut = ? ,
                 date_fin = ? , 
+                where id = ?
+               `,
+            user, (err) => {
+                callback(err)
+            })
+    }
+
+    putStatutEvent(event, callback) {
+        return this.db.run(
+            `UPDATE evenement SET 
+                statut = ? ,
                 where id = ?
                `,
             user, (err) => {
