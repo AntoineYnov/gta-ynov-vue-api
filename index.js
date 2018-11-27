@@ -18,6 +18,8 @@ router.use(bodyParser.json());
 
 app.use(cors())
 
+// REGISTER
+
 router.post('/register', function (req, res) {
     db.insertUser([
             req.body.firstName,
@@ -49,6 +51,7 @@ router.post('/register', function (req, res) {
         });
 });
 
+// LOGIN 
 
 router.post('/login', (req, res) => {
     db.selectByEmail(req.body.email, (err, user) => {
@@ -72,6 +75,8 @@ router.post('/login', (req, res) => {
     });
 })
 
+// DELETE USER
+
 router.delete('/user', (req, res) => {
     db.deleteUser(req.body.id, (err, events) => {
         if (err) return res.status(500).send('Error on the server.');
@@ -79,20 +84,26 @@ router.delete('/user', (req, res) => {
     });
 })
 
+// GET USER BY ID
+
 router.get('/user/:id', (req, res) => {
-    db.deleteUser(req.body.id, (err, events) => {
+    db.selectUserById(req.params.id, (err, events) => {
         if (err) return res.status(500).send('Error on the server.');
         res.status(200).send(events);
     });
 })
 
-router.get('/users', (req, res) => {
-    db.selectUserById(req.params.id, (err, users) => {
+// GET ALL USERS
+
+router.get('/user', (req, res) => {
+    db.selectAllUsers((err, users) => {
         if (err) return res.status(500).send('Error on the server.');
         if (!users) return res.status(404).send('No users');
         res.status(200).send(users);
     });
 })
+
+// PUT USER
 
 router.put('/user', function (req, res) {
     db.putUser([
@@ -112,6 +123,13 @@ router.put('/user', function (req, res) {
         });
 });
 
+//
+//
+// EVENEMENT 
+//
+//
+
+// POST EVENT
 
 router.post('/event', function (req, res) {
     db.insertEvent([
@@ -129,6 +147,8 @@ router.post('/event', function (req, res) {
         });
 });
 
+// PUT EVENT
+
 router.put('/event', function (req, res) {
     db.putEvent([
             req.body.titre,
@@ -144,6 +164,8 @@ router.put('/event', function (req, res) {
         });
 });
 
+// PUT EVENT POUR STATUT SEULEMENT
+
 router.put('/event/statut', function (req, res) {
     db.putStatutEvent([
             req.body.statut,
@@ -155,20 +177,27 @@ router.put('/event/statut', function (req, res) {
         });
 });
 
-router.get('/event', (req, res) => {
+// DELETE EVENT
+
+router.delete('/event', (req, res) => {
     db.deleteEvent(req.body.id, (err, events) => {
         if (err) return res.status(500).send('Error on the server.');
         res.status(200).send(events);
     });
 })
 
-router.delete('/event', (req, res) => {
+// GET ALL EVENT
+
+router.get('/event', (req, res) => {
     db.getAllEvent((err, events) => {
         if (err) return res.status(500).send('Error on the server.');
         if (!events) return res.status(404).send('No event');
         res.status(200).send(events);
     });
 })
+
+
+// GET ALL EVENT OF ONE USER
 
 router.get('/event/user/:id', (req, res) => {
     db.selectEventByUserID(req.params.id, (err, events) => {
@@ -177,6 +206,8 @@ router.get('/event/user/:id', (req, res) => {
         res.status(200).send(events);
     });
 })
+
+// GET ALL EVENT FROM USER WITH STATUT EN ATTENTE
 
 router.get('/event/user/:id/attente', (req, res) => {
     db.selectAllEventEnAttenteForOtherUser(req.params.id, (err, events) => {
