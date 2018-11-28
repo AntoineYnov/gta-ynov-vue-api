@@ -137,10 +137,10 @@ class Db {
                 type = ? ,
                 statut = ? ,
                 date_debut = ? ,
-                date_fin = ? , 
+                date_fin = ? 
                 where id = ?
                `,
-            [event], (err) => {
+            event, (err) => {
                 callback(err)
             })
     }
@@ -148,10 +148,10 @@ class Db {
     putStatutEvent(event, callback) {
         return this.db.run(
             `UPDATE evenement SET 
-                statut = ? ,
+                statut = ? 
                 where id = ?
                `,
-            [event], (err) => {
+            event, (err) => {
                 callback(err)
             })
     }
